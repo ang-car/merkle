@@ -19,15 +19,17 @@ else:
         prompt = f"""
         Base de datos:
         {database_description}
-
+        
         Problema:
         {problem_description}
-
+        
         Genera el código SQL correspondiente y proporciona una explicación detallada.
-        Formato de respuesta:
-        - Código SQL encerrado entre etiquetas <SQL></SQL>.
-        - Explicación encerrada entre etiquetas <EXPLICACION></EXPLICACION>.
+        
+        **Formato de respuesta:**
+        1. Primero, escribe el código SQL en un bloque separado.
+        2. Luego, proporciona una explicación detallada en texto claro.
         """
+
 
         try:
             model = generative_ai.GenerativeModel("gemini-pro")
