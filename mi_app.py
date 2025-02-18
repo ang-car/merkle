@@ -1,21 +1,37 @@
+# CLAVE_DE_API = "AIzaSyCbGeNYZ-T5QNDUig6OAudFnHVoSy50EXw"
+
 import streamlit as st
 import google.generativeai as generative_ai
-import os
 import re  # Importamos regex para extraer el código SQL correctamente
 
-CLAVE_DE_API = "AIzaSyCbGeNYZ-T5QNDUig6OAudFnHVoSy50EXw"
+# Configuración de la barra lateral con descripción de la app
+st.sidebar.title("Acerca de esta App")
+st.sidebar.markdown("""
+👋 **Bienvenido al Generador de Código SQL con Gemini**  
+Esta aplicación usa la inteligencia artificial de Google Gemini para generar código SQL a partir de una descripción de una base de datos y un problema específico.  
+
+**¿Cómo usarla?**  
+1. Ingresa tu API Key de Google Gemini.  
+2. Describe tu base de datos.  
+3. Explica qué consulta SQL necesitas.  
+4. Haz clic en **"Generar código SQL"** y obtendrás el código con una explicación.  
+""")
+
+# Entrada para la API Key del usuario
+CLAVE_DE_API = st.text_input("🔑 Ingresa tu API Key de Gemini:", type="password")
 
 if not CLAVE_DE_API:
-    st.error("Falta la clave de API. Configúrala antes de ejecutar la aplicación.")
+    st.warning("⚠️ Ingresa tu API Key para continuar.")
 else:
     generative_ai.configure(api_key=CLAVE_DE_API)
 
-    st.title("Generador de código SQL con Gemini")
+    st.title("📝 Generador de código SQL con Gemini")
 
-    database_description = st.text_area("Describe la base de datos:", height=150)
-    problem_description = st.text_area("Describe el problema:", height=150)
+    # Entradas de usuario
+    database_description = st.text_area("📂 Describe la base de datos:", height=150)
+    problem_description = st.text_area("❓ Describe el problema:", height=150)
 
-    if st.button("Generar código SQL"):
+    if st.button("🚀 Generar código SQL"):
         prompt = f"""
         Base de datos:
         {database_description}
@@ -49,15 +65,19 @@ else:
                     explanation = "Explicación no encontrada"
 
                 # Mostrar resultados
-                st.subheader("Código SQL Generado:")
+                st.subheader("📜 Código SQL Generado:")
                 st.code(sql_code, language="sql")
 
-                st.subheader("Explicación del Código:")
+                st.subheader("💡 Explicación del Código:")
                 st.write(explanation)
 
             else:
-                st.error("No se recibió una respuesta válida de la API.")
+                st.error("❌ No se recibió una respuesta válida de la API.")
 
         except Exception as e:
-            st.error(f"Error al generar código SQL: {str(e)}")
+            st.error(f"⚠️ Error al generar código SQL: {str(e)}")
+
+
+
+
 
